@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>英熟語クイズ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="mainContainer">
+        <h1>英熟語クイズ</h1>
+        <button id="startButton">スタート</button>
+    </div>
+
+    <script>
+        document.getElementById("startButton").addEventListener("click", function() {
+            document.body.style.backgroundColor = "#ffcccb"; // スタート時に背景色を変更
+            this.style.display = "none"; // スタートボタンを隠す
+            startQuiz();
+        });
+
+        function startQuiz() {
+            document.body.innerHTML += `
+                <div id="question"></div>
+                <div id="answerForm">
+                    <input type="text" id="answer" placeholder="英単語を入力">
+                    <button onclick="judge()">OK</button>
+                </div>
+                <p id="resultMessage"></p>
+            `;
+            document.getElementById("resultImage").style.display = "none";
+            wordList = wordList.sort(() => Math.random() - 0.5); // 問題をランダム化
+            no = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        let no = 0;
+        let score = 0;
+        let wordList = [
+            { japanese: "AかBかどちらか(4単語)", english: "Either A or B" },
+            { japanese: "続ける(2単語)", english: "Keep on" },
+            { japanese: "失敗する(2単語)", english: "Fall through" },
+            { japanese: "～できる(3単語)", english: "be able to" },
+            { japanese: "～に興味がある(3単語)", english: "be interested in" },
+            { japanese: "できる(3単語)", english: "be able to" },
+            { japanese: "興味がある(3単語)", english: "be interested in" },
+            { japanese: "目覚める(2単語)", english: "wake up" },
+            { japanese: "たくさんの(3単語)", english: "a lot of" },
+            { japanese: "より多くの(2単語)", english: "more than" },
+            { japanese: "未満の(2単語)", english: "less than" },
+            { japanese: "～で有名である(3単語)", english: "be famous for" },
+            { japanese: "最初は(2単語)", english: "at first" },
+            { japanese: "ついに、最終的に(2単語)", english: "at last" },
+            { japanese: "AとBの間に(4単語)", english: "between A and B" },
+            { japanese: "AかBのどちらか一方(4単語)", english: "either A or B" },
+            { japanese: "AとBの両方(4単語)", english: "both A and B" },
+            { japanese: "AだけでなくBも(6単語)", english: "not only A but also B" },
+            { japanese: "AではなくB(4単語)", english: "not A but B" },
+            { japanese: "～するために(3単語)", english: "in order to" },
+            { japanese: "楽しむ(4単語)", english: "Have a good time" },
+            { japanese: "世話をする(3単語)", english: "Take care of" },
+            { japanese: "あきらめる(2単語)", english: "Give up" },
+            { japanese: "交代する(2単語)", english: "Take turns" },
+            { japanese: "育てる(2単語)", english: "Bring up" }
+        ];
+
+        function showQuestion() {
+            if (no < wordList.length) {
+                // 次の問題がある場合は、表示する
+                document.getElementById("question").innerHTML = wordList[no].japanese;
+            } else {
+                //全問終了したら、成績を発表する
+                document.getElementById("question").innerHTML = score + "/" + wordList.length;
+                document.getElementById("answerForm").style.display = "none";
+                document.getElementById("resultImage").style.display = "block"; // 画像を表示
+
+                if (score == wordList.length) {
+                    // 全問正解の場合
+                    document.getElementById("resultMessage").innerHTML = "全問正解！よくできました！";
+                    document.getElementById("resultImage").src = "gold.png";
+                } else if (score >= wordList.length * 0.6) {
+                    // 6割以上正解の場合
+                    document.getElementById("resultMessage").innerHTML = "惜しい！あともう一歩でした！";
+                    document.getElementById("resultImage").src = "silver.png";
+                } else {
+                    // 6割未満の場合
+                    document.getElementById("resultMessage").innerHTML = "もう少しがんばりましょう。";
+                    document.getElementById("resultImage").src = "bronze.png";
+                }
+            }
+        }
+
+        function judge() {
+            const answer = document.getElementById("answer").value.trim();
+
+            if (answer === wordList[no].english) {
+                alert("正解です！");
+                score++;
+                document.body.style.backgroundColor = "#ffcccb";
+            } else {
+                alert("不正解です。答えが気になるなら一覧表見てきてください");
+                document.body.style.backgroundColor = "#add8e6";
+            }
+            no++;
+            showQuestion();
+            document.getElementById("answer").value = "";
+        }
+
+        function restartQuiz() {
+        }
+    </script>
+    <img id="resultImage" src="bronze.png" style="display: none;"  > 
+</body>
+</html>

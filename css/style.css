@@ -1,0 +1,29 @@
+body {
+	text-align: center;	
+}
+h1 {
+	color: #979797;
+	font-size: 800%
+}
+#question {
+	width: 100%;
+	margin: 40px 0;
+	font-size: 500%;
+}
+#answerForm {
+	font-size: 60%;
+}
+#answer {
+	width: 60%;
+}
+#resultImage {
+	display: none; 
+	display: block; 
+	margin: 0 auto; 
+	max-width: 100%; 
+	height: auto; 
+}
+
+
+
+
